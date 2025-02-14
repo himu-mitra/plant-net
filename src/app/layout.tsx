@@ -32,7 +32,7 @@ export default function HomeLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-screen-2xl mx-auto`}
       >
         <NextAuthSesionProvider>
-          <Toaster position="top-right" reverseOrder={false} />
+          <Toaster position="top-center" reverseOrder={false} />
           <nav className="sticky top-0 z-30">
             <Navbar></Navbar>
           </nav>

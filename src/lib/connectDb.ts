@@ -5,6 +5,7 @@ let client: MongoClient | null = null;
 let mitraMartDb: any = null;
 let usersCollection: any = null;
 let plantsCollection: any = null;
+let ordersCollection: any = null;
 
 export default async function connectDb() {
     if (!client) {
@@ -30,6 +31,9 @@ export default async function connectDb() {
             if (!plantsCollection) {
                 plantsCollection = mitraMartDb.collection("plants")
             }
+            if (!ordersCollection) {
+                ordersCollection = mitraMartDb.collection("orders")
+            }
 
 
         } catch (error) {
@@ -38,5 +42,5 @@ export default async function connectDb() {
         }
     }
 
-    return { client, mitraMartDb, usersCollection, plantsCollection };
+    return { client, mitraMartDb, usersCollection, plantsCollection, ordersCollection };
 }

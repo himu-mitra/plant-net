@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { Fragment, useState } from "react";
 import Button from "../shared/Button";
 import useAuth from "@/hooks/useAuth";
+import axios from "axios";
 
 const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
   const { sessionUser } = useAuth();
@@ -29,32 +30,29 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
     status: "Pending",
   });
 
-  function handleQuantity(value: any) {
+  function handleQuantity(value: number) {
     if (value > quantity) {
       setTotalQuantity(quantity);
-      return toast.error("Quentity esceeds available stock");
+      return toast.error("Quantity exceeds available stock");
     }
-    if (value < 0) {
+    if (value < 1) {
       setTotalQuantity(1);
-      return toast.error("Quentity can't be less then 1");
+      return toast.error("Quantity can't be less than 1");
     }
     setTotalQuantity(value);
     setTotalPrice(value * price);
-    setPurchaseInfo((prv) => {
-      return { ...prv, quantity: value, price: value * price };
-    });
+    setPurchaseInfo((prev) => ({
+      ...prev,
+      quantity: value,
+      price: value * price,
+    }));
   }
 
   async function handlePurchase() {
     try {
-      // await axiosSecure.post("/order", purchaseInfo);
-      // await axiosSecure.patch(`/plants/quantity/${_id}`, {
-      //   quantityToUpdate: totalQuantity,
-      //   status: "decrease",
-      // });
-
+      await axios.post("/api/order", purchaseInfo);
       refetch();
-      toast.success("Order Successfull!");
+      toast.success("Order Successful!");
     } catch (error) {
       console.log(error);
     } finally {
@@ -62,11 +60,9 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
     }
   }
 
-  // Total Price Calculation
-
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog as="div" className="relative z-50" onClose={closeModal}>
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
@@ -76,90 +72,99 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md" />
         </TransitionChild>
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <TransitionChild
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <DialogTitle
-                  as="h3"
-                  className="text-lg font-medium text-center leading-6 text-gray-900"
-                >
-                  Review Info Before Purchase
-                </DialogTitle>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">Plant: {name}</p>
-                </div>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">Category: {category}</p>
-                </div>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Customer: {sessionUser?.name}
-                  </p>
-                </div>
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <DialogPanel className="w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl transform transition-all">
+              <DialogTitle
+                as="h3"
+                className="text-xl font-semibold text-center text-gray-800"
+              >
+                Confirm Your Purchase
+              </DialogTitle>
 
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">Price: $ {price}</p>
-                </div>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Available Quantity: {quantity}
-                  </p>
-                </div>
+              <div className="mt-4 space-y-3 text-gray-600">
+                <p>
+                  <span className="font-medium text-gray-800">Plant:</span> {name}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Category:</span> {category}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Customer:</span> {sessionUser?.name}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Price:</span> ${price}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Available Quantity:</span> {quantity}
+                </p>
+              </div>
 
-                <div className="space-x-2 text-sm mt-2">
-                  <label htmlFor="quantity" className="text-gray-600">
+              <div className="mt-4 space-y-3">
+                <div className="flex items-center space-x-2">
+                  <label htmlFor="quantity" className="text-gray-700 font-medium">
                     Quantity:
                   </label>
                   <input
                     value={totalQuantity}
                     onChange={(e) => handleQuantity(parseInt(e.target.value))}
-                    className="p-2 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                    className="w-20 px-3 py-2 border rounded-lg text-gray-800 border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none"
                     name="quantity"
                     id="quantity"
                     type="number"
-                    placeholder="Available quantity"
-                    required
+                    min="1"
+                    max={quantity}
                   />
                 </div>
-                <div className="space-x-2 text-sm mt-2">
-                  <label htmlFor="address" className="text-gray-600">
+
+                <div className="flex items-center space-x-2">
+                  <label htmlFor="address" className="text-gray-700 font-medium">
                     Address:
                   </label>
                   <input
                     onChange={(e) =>
-                      setPurchaseInfo((prv) => {
-                        return { ...prv, address: e.target.value };
-                      })
+                      setPurchaseInfo((prev) => ({
+                        ...prev,
+                        address: e.target.value,
+                      }))
                     }
-                    className="p-2 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                    className="w-full px-3 py-2 border rounded-lg text-gray-800 border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none"
                     name="address"
                     id="address"
                     type="text"
-                    placeholder="Write your address here.."
+                    placeholder="Enter your address..."
                     required
                   />
                 </div>
-                <div className="mt-3">
-                  <Button
-                    onClick={handlePurchase}
-                    label={`Pay ${totalPrice}$`}
-                  ></Button>
-                </div>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
+              </div>
+
+              <div className="mt-6 flex justify-between items-center gap-5">
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-3 rounded-lg text-red-900 bg-red-100 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                >
+                  Cancel
+                </button>
+                <Button
+                  onClick={handlePurchase}
+                  label={`Pay $${totalPrice}`}
+                  disabled={!sessionUser || totalQuantity <= 0 || (purchaseInfo.address === "")}
+                  className="px-6 py-3 text-white rounded-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                />
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </Transition>

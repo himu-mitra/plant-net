@@ -7,17 +7,19 @@ const AddPlantForm = ({
   loading,
 }: any) => {
   return (
-    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div className="w-full flex flex-col justify-center items-center bg-white my-4">
+      <form onSubmit={handleSubmit} className="w-full max-w-4xl bg-white p-8 rounded-xl shadow-xl">
+        <h2 className="text-3xl font-semibold text-center text-white mb-10 bg-emerald-500 py-3 rounded-xl">Add a New Plant</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column */}
           <div className="space-y-6">
             {/* Name */}
             <div className="space-y-1 text-sm">
-              <label htmlFor="name" className="block text-gray-600">
-                Name
+              <label htmlFor="name" className="block text-gray-700 font-medium">
+                Plant Name
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                className="w-full px-4 py-3 text-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 name="name"
                 id="name"
                 type="text"
@@ -27,12 +29,12 @@ const AddPlantForm = ({
             </div>
             {/* Category */}
             <div className="space-y-1 text-sm">
-              <label htmlFor="category" className="block text-gray-600 ">
+              <label htmlFor="category" className="block text-gray-700 font-medium">
                 Category
               </label>
               <select
                 required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                className="w-full px-4 py-3 text-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 name="category"
               >
                 <option value="Indoor">Indoor</option>
@@ -43,28 +45,29 @@ const AddPlantForm = ({
             </div>
             {/* Description */}
             <div className="space-y-1 text-sm">
-              <label htmlFor="description" className="block text-gray-600">
+              <label htmlFor="description" className="block text-gray-700 font-medium">
                 Description
               </label>
-
               <textarea
                 id="description"
                 placeholder="Write plant description here..."
-                className="block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 "
+                className="block w-full h-32 px-4 py-3 text-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 name="description"
               ></textarea>
             </div>
           </div>
-          <div className="space-y-6 flex flex-col">
+
+          {/* Right Column */}
+          <div className="space-y-6">
             {/* Price & Quantity */}
-            <div className="flex justify-between gap-2">
+            <div className="flex gap-6">
               {/* Price */}
-              <div className="space-y-1 text-sm">
-                <label htmlFor="price" className="block text-gray-600 ">
-                  Price
+              <div className="space-y-1 text-sm flex-1">
+                <label htmlFor="price" className="block text-gray-700 font-medium">
+                  Price ($)
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                  className="w-full px-4 py-3 text-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
                   name="price"
                   id="price"
                   type="number"
@@ -74,12 +77,12 @@ const AddPlantForm = ({
               </div>
 
               {/* Quantity */}
-              <div className="space-y-1 text-sm">
-                <label htmlFor="quantity" className="block text-gray-600">
+              <div className="space-y-1 text-sm flex-1">
+                <label htmlFor="quantity" className="block text-gray-700 font-medium">
                   Quantity
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                  className="w-full px-4 py-3 text-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
                   name="quantity"
                   id="quantity"
                   type="number"
@@ -88,39 +91,41 @@ const AddPlantForm = ({
                 />
               </div>
             </div>
-            {/* Image */}
-            <div className=" p-4 w-full m-auto rounded-lg flex-grow">
-              <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
-                <div className="flex flex-col w-max mx-auto text-center">
-                  <label>
-                    <input
-                      className="text-sm cursor-pointer w-36 hidden"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                          const fileName = e.target.files[0].name;
-                          const shortName = fileName.length > 25 ? fileName.slice(0, 25) + "..." : fileName;
-                          setUploadButtonText(shortName);
-                        }
-                      }}
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept="image/*"
-                      required
-                      hidden
-                    />
-                    <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500">
-                      {uploadButtonText}
-                    </div>
-                  </label>
-                </div>
+
+            {/* Image Upload */}
+            <div className="space-y-1 text-sm">
+              <label htmlFor="image" className="block text-gray-700 font-medium">
+                Upload Plant Image
+              </label>
+              <div className="file_upload px-5 py-4 bg-white border-4 border-dotted border-emerald-500 rounded-lg text-center">
+                <label>
+                  <input
+                    className="text-sm cursor-pointer w-36 hidden"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        const fileName = e.target.files[0].name;
+                        const shortName = fileName.length > 25 ? fileName.slice(0, 25) + "..." : fileName;
+                        setUploadButtonText(shortName);
+                      }
+                    }}
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                    required
+                    hidden
+                  />
+                  <div className="bg-emerald-500 text-white rounded-lg p-2 px-4 cursor-pointer hover:bg-emerald-600">
+                    {uploadButtonText}
+                  </div>
+                </label>
               </div>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
+              className="w-full py-3 text-white bg-emerald-500 hover:bg-emerald-600 rounded-md shadow-md font-semibold mt-6"
             >
               {loading ? (
                 <TbFidgetSpinner className="animate-spin m-auto" />

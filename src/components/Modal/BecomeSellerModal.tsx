@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import {
   Dialog,
   Transition,
@@ -7,7 +6,7 @@ import {
   DialogPanel,
 } from '@headlessui/react'
 import { Fragment } from 'react'
-const BecomeSellerModal = ({ closeModal, isOpen }) => {
+const BecomeSellerModal = ({ closeModal, isOpen }: any) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -72,10 +71,5 @@ const BecomeSellerModal = ({ closeModal, isOpen }) => {
   )
 }
 
-BecomeSellerModal.propTypes = {
-  modalHandler: PropTypes.func,
-  closeModal: PropTypes.func,
-  isOpen: PropTypes.bool,
-}
 
 export default BecomeSellerModal
