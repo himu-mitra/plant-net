@@ -1,38 +1,48 @@
 "use client"
 
-import DeleteModal from '@/components/Modal/DeleteModal'
 import { useState } from 'react'
-const SellerOrderDataRow = () => {
-  let [isOpen, setIsOpen] = useState(false)
+import DeleteModal from '@/components/Modal/DeleteModal'
+
+const SellerOrderDataRow = ({ orderData, refetch }:any) => {
+  const [isOpen, setIsOpen] = useState(false)
   const closeModal = () => setIsOpen(false)
 
   return (
-    <tr>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        {/* <p className='text-gray-900 whitespace-no-wrap'>{name}</p> */}
+    <tr className='bg-white hover:shadow-md transition-shadow duration-300'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm font-medium text-gray-900'>
+        {orderData?.name || 'Unknown'}
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>abc@gmail.com</p>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700'>
+        {orderData?.email || 'N/A'}
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>$120</p>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm font-semibold text-gray-900'>
+        ${orderData?.price || '0.00'}
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>5</p>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700'>
+        {orderData?.quantity || '0'}
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>Dhaka</p>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700'>
+        {orderData?.location || 'Unknown'}
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>Pending</p>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm'>
+        <span
+          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+            orderData?.status === 'Pending'
+              ? 'bg-yellow-200 text-yellow-800'
+              : orderData?.status === 'In Progress'
+              ? 'bg-blue-200 text-blue-800'
+              : 'bg-green-200 text-green-800'
+          }`}
+        >
+          {orderData?.status || 'Pending'}
+        </span>
       </td>
-
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <div className='flex items-center gap-2'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm'>
+        <div className='flex items-center gap-4'>
           <select
             required
-            className='p-1 border-2 border-lime-300 focus:outline-lime-500 rounded-md text-gray-900 whitespace-no-wrap bg-white'
-            name='category'
+            className='p-2 border rounded-md focus:ring-2 focus:ring-emerald-500 transition duration-200 bg-white text-emerald-600'
+            name='status'
           >
             <option value='Pending'>Pending</option>
             <option value='In Progress'>Start Processing</option>
@@ -40,13 +50,9 @@ const SellerOrderDataRow = () => {
           </select>
           <button
             onClick={() => setIsOpen(true)}
-            className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+            className='px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200'
           >
-            <span
-              aria-hidden='true'
-              className='absolute inset-0 bg-red-200 opacity-50 rounded-full'
-            ></span>
-            <span className='relative'>Cancel</span>
+            Cancel
           </button>
         </div>
         <DeleteModal isOpen={isOpen} closeModal={closeModal} />

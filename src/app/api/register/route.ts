@@ -5,16 +5,16 @@ export async function POST(req: NextRequest) {
     try {
         const userInfo = await req.json();
         console.log(userInfo)
-        const { name, email, password="halum", provider="credentials", image= null } = userInfo;
+        const { name, email, password = "halum", provider = "credentials", image = "https://res.cloudinary.com/dnr1svamu/image/upload/v1739601314/placeholder_c0lj2n.jpg" } = userInfo;
         const { usersCollection } = await connectDb();
         const query: any = { email };
         const existingUser = await usersCollection.findOne(query);
 
         if (existingUser) {
             return NextResponse.json({ message: "User already exists", success: true }, { status: 200 });
-            
-        } 
-        
+
+        }
+
         const newUser = await usersCollection.insertOne({
             name,
             email,
@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
 
         if (newUser.insertedId) {
             return NextResponse.json({ message: "New user created", success: true }, { status: 200 });
-        } 
-        
+        }
+
         return NextResponse.json({ message: "User creation failed", success: false }, { status: 500 });
 
     } catch (error) {

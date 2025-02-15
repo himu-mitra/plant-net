@@ -51,6 +51,9 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
   async function handlePurchase() {
     try {
       await axios.post("/api/order", purchaseInfo);
+      await axios.patch(`/api/dashboard/seller/update-plant-quentity/${_id}`, {
+        quantityToUpdate: totalQuantity,
+      });
       refetch();
       toast.success("Order Successful!");
     } catch (error) {
@@ -95,30 +98,40 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
 
               <div className="mt-4 space-y-3 text-gray-600">
                 <p>
-                  <span className="font-medium text-gray-800">Plant:</span> {name}
+                  <span className="font-medium text-gray-800">Plant:</span>{" "}
+                  {name}
                 </p>
                 <p>
-                  <span className="font-medium text-gray-800">Category:</span> {category}
+                  <span className="font-medium text-gray-800">Category:</span>{" "}
+                  {category}
                 </p>
                 <p>
-                  <span className="font-medium text-gray-800">Customer:</span> {sessionUser?.name}
+                  <span className="font-medium text-gray-800">Customer:</span>{" "}
+                  {sessionUser?.name}
                 </p>
                 <p>
-                  <span className="font-medium text-gray-800">Price:</span> ${price}
+                  <span className="font-medium text-gray-800">Price:</span> $
+                  {price}
                 </p>
                 <p>
-                  <span className="font-medium text-gray-800">Available Quantity:</span> {quantity}
+                  <span className="font-medium text-gray-800">
+                    Available Quantity:
+                  </span>{" "}
+                  {quantity}
                 </p>
               </div>
 
               <div className="mt-4 space-y-3">
                 <div className="flex items-center space-x-2">
-                  <label htmlFor="quantity" className="text-gray-700 font-medium">
+                  <label
+                    htmlFor="quantity"
+                    className="text-gray-700 font-medium"
+                  >
                     Quantity:
                   </label>
                   <input
                     value={totalQuantity}
-                    onChange={(e) => handleQuantity(parseInt(e.target.value))}
+                    onChange={(e) => handleQuantity(parseInt(e.target.value) || 0)}
                     className="w-20 px-3 py-2 border rounded-lg text-gray-800 border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none"
                     name="quantity"
                     id="quantity"
@@ -129,7 +142,10 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <label htmlFor="address" className="text-gray-700 font-medium">
+                  <label
+                    htmlFor="address"
+                    className="text-gray-700 font-medium"
+                  >
                     Address:
                   </label>
                   <input
@@ -159,7 +175,11 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
                 <Button
                   onClick={handlePurchase}
                   label={`Pay $${totalPrice}`}
-                  disabled={!sessionUser || totalQuantity <= 0 || (purchaseInfo.address === "")}
+                  disabled={
+                    !sessionUser ||
+                    totalQuantity <= 0 ||
+                    purchaseInfo.address === ""
+                  }
                   className="px-6 py-3 text-white rounded-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                 />
               </div>

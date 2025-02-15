@@ -1,16 +1,20 @@
-import PropTypes from "prop-types";
+"use client";
+
 import { useState } from "react";
 import DeleteModal from "../../Modal/DeleteModal";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-const CustomerOrderDataRow = ({ orderData, refetch }) => {
-  const axiosSecure = useAxiosSecure();
+import axios from "axios";
+import Image from "next/image";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+
+const CustomerOrderDataRow = ({ orderData, refetch, isLoading }: any) => {
   let [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const { name, image, category, price, quantity, _id, status } = orderData;
+
   async function handleDelete() {
     try {
-      await axiosSecure.delete(`/orders/${_id}`);
-      await axiosSecure.patch(`/plants/quantity/${_id}`, {
+      await axios.delete(`/orders/${_id}`);
+      await axios.patch(`/plants/quantity/${_id}`, {
         quantityToUpdate: quantity,
         status: "increase",
       });
@@ -21,47 +25,58 @@ const CustomerOrderDataRow = ({ orderData, refetch }) => {
       closeModal();
     }
   }
+
   return (
-    <tr>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 transition duration-200">
+      <td className="px-5 py-4">
         <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <div className="block relative">
-              <img
-                alt="profile"
+          <div className="flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border border-gray-300 shadow-sm">
+            {image ? (
+              <Image
                 src={image}
-                className="mx-auto object-cover rounded h-10 w-15 "
+                alt={name}
+                width={56}
+                height={56}
+                className="object-cover w-full h-full"
               />
-            </div>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500 text-sm">
+                No Image
+              </div>
+            )}
           </div>
         </div>
       </td>
-
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">{name}</p>
-      </td>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">{category}</p>
-      </td>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">${price}</p>
-      </td>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">{quantity}</p>
-      </td>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">{status}</p>
-      </td>
-
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-lime-900 leading-tight"
+      <td className="px-5 py-4 text-gray-900 font-medium">{name}</td>
+      <td className="px-5 py-4 text-gray-600">{category}</td>
+      <td className="px-5 py-4 font-semibold text-emerald-600">${price}</td>
+      <td className="px-5 py-4 text-center">{quantity}</td>
+      <td className="px-5 py-4">
+        <span
+          className={`px-3 py-2 text-sm font-semibold rounded-lg 
+          ${
+            status === "Delivered"
+              ? "text-green-600"
+              : status === "In Progress"
+              ? "text-blue-600"
+              : "text-yellow-500"
+          }`}
         >
-          <span className="absolute cursor-pointer inset-0 bg-red-200 opacity-50 rounded-full"></span>
-          <span className="relative cursor-pointer">Cancel</span>
-        </button>
+          {status}
+        </span>
+      </td>
 
+      <td className="px-5 py-4">
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <button
+            onClick={() => setIsOpen(true)}
+            className="relative px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition rounded-lg shadow-md"
+          >
+            Cancel
+          </button>
+        )}
         <DeleteModal
           isOpen={isOpen}
           closeModal={closeModal}
@@ -70,11 +85,6 @@ const CustomerOrderDataRow = ({ orderData, refetch }) => {
       </td>
     </tr>
   );
-};
-
-CustomerOrderDataRow.propTypes = {
-  order: PropTypes.object,
-  refetch: PropTypes.func,
 };
 
 export default CustomerOrderDataRow;

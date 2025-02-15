@@ -9,12 +9,6 @@ export async function middleware(request: NextRequest) {
     // console.log("tokeen", token);
     console.log("pathname---------", pathname)
 
-    // if (!token && (pathname.startsWith("/api/order"))) {
-    //     const url = new URL("/login", request.url);
-    //     url.searchParams.set("redirect", request.nextUrl.href);
-    //     return NextResponse.redirect(url);
-    // }
-
     if (token && (pathname.startsWith("/login") || pathname.startsWith("/signup"))) {
         return NextResponse.redirect(new URL("/", request.url));
     }
@@ -23,7 +17,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    if (!token && (pathname.startsWith("/dashboard"))) {
+    if (!token && (pathname.startsWith("/dashboard") || pathname.startsWith("/api/dashboard"))) {
         return NextResponse.redirect(new URL("/login", request.url));
     }
 
@@ -47,7 +41,6 @@ export const config = {
         "/login",
         "/signup",
         "/api/order",
-        "/plant/:path*",
         "/dashboard/:path*",
         "/api/dashboard/:path*",
     ],

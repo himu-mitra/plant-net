@@ -1,70 +1,65 @@
-import SellerOrderDataRow from "@/components/Dashboard/TableRows/SellerOrderDataRow"
+"use client";
+
+import SellerOrderDataRow from "@/components/Dashboard/TableRows/SellerOrderDataRow";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const ManageOrders = () => {
-  return (
-    <>
-      <div className='container mx-auto px-4 sm:px-8'>
-        <div className='py-8'>
-          <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
-            <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
-              <table className='min-w-full leading-normal'>
-                <thead>
-                  <tr>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Name
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Customer
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Price
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Quantity
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Address
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Status
-                    </th>
+  const {
+    data: orders = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["manage-orders"],
+    queryFn: async () => {
+      const { data } = await axios.get(`/api/dashboard/manage-orders`);
+      return data;
+    },
+  });
 
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Action
-                    </th>
+  // if (isLoading) return <LoadingSpinner />;
+
+  return (
+    <div className="container mx-auto px-4 sm:px-8">
+      <div className="py-8">
+        <h2 className="text-3xl font-semibold text-center text-white mb-8 bg-emerald-500 py-3 rounded-xl">
+          Manage Orders
+        </h2>
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="overflow-x-auto"> {/* Make the table scrollable */}
+            <table className="min-w-full border-collapse w-full">
+              <thead>
+                <tr className="bg-emerald-600 text-white">
+                  <th className="px-6 py-3 text-left text-sm font-medium">Name</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">Customer</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">Price</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">Quantity</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">Address</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">Status</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <SellerOrderDataRow></SellerOrderDataRow>
+                {/* {orders.length > 0 ? (
+                  orders.map((orderData: any) => (
+                    <SellerOrderDataRow key={orderData._id} orderData={orderData} refetch={refetch} />
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="text-center py-6 text-gray-500 font-medium">
+                      No orders found
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  <SellerOrderDataRow />
-                </tbody>
-              </table>
-            </div>
+                )} */}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default ManageOrders
+export default ManageOrders;

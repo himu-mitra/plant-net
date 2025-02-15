@@ -7,7 +7,7 @@ const AddPlantForm = ({
   loading,
 }: any) => {
   return (
-    <div className="w-full flex flex-col justify-center items-center bg-white my-4">
+    <div className="w-full flex flex-col justify-center items-center bg-white">
       <form onSubmit={handleSubmit} className="w-full max-w-4xl bg-white p-8 rounded-xl shadow-xl">
         <h2 className="text-3xl font-semibold text-center text-white mb-10 bg-emerald-500 py-3 rounded-xl">Add a New Plant</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

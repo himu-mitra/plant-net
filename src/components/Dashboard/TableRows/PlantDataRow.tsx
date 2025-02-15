@@ -1,79 +1,68 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import DeleteModal from '../../Modal/DeleteModal'
-import UpdatePlantModal from '../../Modal/UpdatePlantModal'
+import { useState } from "react";
+import DeleteModal from "../../Modal/DeleteModal";
+import UpdatePlantModal from "../../Modal/UpdatePlantModal";
 
 const PlantDataRow = () => {
-  let [isOpen, setIsOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-
-  function openModal() {
-    setIsOpen(true)
-  }
-  function closeModal() {
-    setIsOpen(false)
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   return (
-    <tr>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <div className='flex items-center'>
-          <div className='flex-shrink-0'>
-            <div className='block relative'>
-              <img
-                alt='profile'
-                src='https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg'
-                className='mx-auto object-cover rounded h-10 w-15 '
-              />
-            </div>
+    <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 transition duration-200">
+      {/* Plant Image */}
+      <td className="px-6 py-4">
+        <div className="flex items-center">
+          <div className="w-14 h-14 overflow-hidden rounded-lg shadow-md">
+            <img
+              alt="Money Plant"
+              src="https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>Money Plant</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>Indoor</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>$120</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 whitespace-no-wrap'>5</p>
+
+      {/* Plant Name */}
+      <td className="px-6 py-4 text-gray-900 font-medium text-lg">
+        Money Plant
       </td>
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <span
-          onClick={openModal}
-          className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+      {/* Category */}
+      <td className="px-6 py-4 text-gray-700">Indoor</td>
+
+      {/* Price */}
+      <td className="px-6 py-4 font-semibold text-emerald-600">$120</td>
+
+      {/* Quantity */}
+      <td className="px-6 py-4 text-gray-900 text-center">5</td>
+
+      {/* Delete Button */}
+      <td className="px-6 py-4">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="relative px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition rounded-lg shadow-md"
         >
-          <span
-            aria-hidden='true'
-            className='absolute inset-0 bg-red-200 opacity-50 rounded-full'
-          ></span>
-          <span className='relative'>Delete</span>
-        </span>
-        <DeleteModal isOpen={isOpen} closeModal={closeModal} />
+          Delete
+        </button>
+        <DeleteModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <span
+
+      {/* Update Button */}
+      <td className="px-6 py-4">
+        <button
           onClick={() => setIsEditModalOpen(true)}
-          className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+          className="relative px-4 py-2 text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition rounded-lg shadow-md"
         >
-          <span
-            aria-hidden='true'
-            className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
-          ></span>
-          <span className='relative'>Update</span>
-        </span>
+          Update
+        </button>
         <UpdatePlantModal
           isOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
         />
       </td>
     </tr>
-  )
-}
+  );
+};
 
-export default PlantDataRow
+export default PlantDataRow;
