@@ -5,20 +5,23 @@ import DeleteModal from "../../Modal/DeleteModal";
 import axios from "axios";
 import Image from "next/image";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const CustomerOrderDataRow = ({ orderData, refetch, isLoading }: any) => {
   let [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
-  const { name, image, category, price, quantity, _id, status } = orderData;
+  const { name, image, category, price, quantity, _id, status, plantId } = orderData;
+  console.log("quantity", quantity)
 
   async function handleDelete() {
     try {
-      await axios.delete(`/orders/${_id}`);
-      await axios.patch(`/plants/quantity/${_id}`, {
+      await axios.delete(`/api/dashboard/delete-order/${_id}`);
+      await axios.patch(`/api/dashboard/seller/update-plant-quentity/${plantId}`, {
         quantityToUpdate: quantity,
-        status: "increase",
+        status: "increase"
       });
       refetch();
+      toast.success("Order cancel Successful!");
     } catch (error) {
       console.log(error);
     } finally {

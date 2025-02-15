@@ -13,6 +13,8 @@ const ManageUsers = () => {
               <table className="min-w-full border-collapse w-full">
                 <thead>
                   <tr className="bg-emerald-600 text-white">
+                    <th className="px-6 py-3 text-left text-sm font-medium">Image</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">Name</th>
                     <th className="px-6 py-3 text-left text-sm font-medium">Email</th>
                     <th className="px-6 py-3 text-left text-sm font-medium">Role</th>
                     <th className="px-6 py-3 text-left text-sm font-medium">Status</th>

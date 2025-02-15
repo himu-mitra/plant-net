@@ -10,8 +10,10 @@ import { Fragment, useState } from "react";
 import Button from "../shared/Button";
 import useAuth from "@/hooks/useAuth";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
+  const router = useRouter()
   const { sessionUser } = useAuth();
   const { category, price, name, seller, quantity, _id } = plant;
   const [totalQuantity, setTotalQuantity] = useState(1);
@@ -45,6 +47,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
       ...prev,
       quantity: value,
       price: value * price,
+      createdAt: new Date()
     }));
   }
 
@@ -53,8 +56,10 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
       await axios.post("/api/order", purchaseInfo);
       await axios.patch(`/api/dashboard/seller/update-plant-quentity/${_id}`, {
         quantityToUpdate: totalQuantity,
+        status: "decrease"
       });
       refetch();
+      router.push("/dashboard/customer/my-orders")
       toast.success("Order Successful!");
     } catch (error) {
       console.log(error);
@@ -66,7 +71,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={closeModal}>
-        <TransitionChild
+      <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -75,7 +80,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md" />
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
         </TransitionChild>
 
         <div className="fixed inset-0 flex items-center justify-center p-4">

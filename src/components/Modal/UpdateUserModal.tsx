@@ -17,7 +17,7 @@ import { AiOutlineDown } from "react-icons/ai";
 
 const roles = ["customer", "seller", "admin"];
 
-const UpdateUserModal = ({ setIsOpen, isOpen }) => {
+const UpdateUserModal = ({ setIsOpen, isOpen }: any) => {
   const [selected, setSelected] = useState("");
 
   return (

@@ -7,13 +7,14 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     const form = event.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
 
@@ -27,8 +28,11 @@ const SignUp = () => {
     };
 
     try {
-      await axios.post("/api/register", userInfo);
-      toast.success("Signup Successful");
+      const data = await axios.post("/api/register", userInfo);
+      if (data.status === 200) {
+        router.push("/login");
+        toast.success("Signup Successful");
+      }
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);
@@ -40,7 +44,7 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       await signIn("google");
-      toast.success("Signup Successful");
+      // toast.success("Signup Successful");
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);

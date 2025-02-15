@@ -3,30 +3,30 @@
 import { useState } from 'react'
 import DeleteModal from '@/components/Modal/DeleteModal'
 
-const SellerOrderDataRow = ({ orderData, refetch }:any) => {
+const SellerOrderDataRow = ({ orderData, refetch }: any) => {
   const [isOpen, setIsOpen] = useState(false)
   const closeModal = () => setIsOpen(false)
 
   return (
-    <tr className='bg-white hover:shadow-md transition-shadow duration-300'>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm font-medium text-gray-900'>
+    <tr className='group bg-white hover:bg-gray-100 transition duration-300'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm font-medium text-gray-900 group-hover:bg-gray-100 transition'>
         {orderData?.name || 'Unknown'}
       </td>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700 group-hover:bg-gray-100 transition'>
         {orderData?.email || 'N/A'}
       </td>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm font-semibold text-gray-900'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm font-semibold text-gray-900 group-hover:bg-gray-100 transition'>
         ${orderData?.price || '0.00'}
       </td>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700 group-hover:bg-gray-100 transition'>
         {orderData?.quantity || '0'}
       </td>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm text-gray-700 group-hover:bg-gray-100 transition'>
         {orderData?.location || 'Unknown'}
       </td>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm group-hover:bg-gray-100 transition'>
         <span
-          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+          className={`px-3 py-1 rounded-full text-xs font-semibold transition ${
             orderData?.status === 'Pending'
               ? 'bg-yellow-200 text-yellow-800'
               : orderData?.status === 'In Progress'
@@ -37,7 +37,7 @@ const SellerOrderDataRow = ({ orderData, refetch }:any) => {
           {orderData?.status || 'Pending'}
         </span>
       </td>
-      <td className='px-6 py-4 border-b border-gray-200 text-sm'>
+      <td className='px-6 py-4 border-b border-gray-200 text-sm group-hover:bg-gray-100 transition'>
         <div className='flex items-center gap-4'>
           <select
             required
