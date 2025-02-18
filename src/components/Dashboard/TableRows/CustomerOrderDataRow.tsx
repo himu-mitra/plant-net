@@ -8,10 +8,9 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import toast from "react-hot-toast";
 
 const CustomerOrderDataRow = ({ orderData, refetch, isLoading }: any) => {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const { name, image, category, price, quantity, _id, status, plantId } = orderData;
-  console.log("quantity", quantity)
 
   async function handleDelete() {
     try {
@@ -22,8 +21,8 @@ const CustomerOrderDataRow = ({ orderData, refetch, isLoading }: any) => {
       });
       refetch();
       toast.success("Order cancel Successful!");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.response.data);
     } finally {
       closeModal();
     }

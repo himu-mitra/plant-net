@@ -4,7 +4,6 @@ import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
-import { BsGraphUp } from "react-icons/bs";
 import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/AdminMenu";
 import SellerMenu from "./Menu/SellerMenu";
@@ -13,9 +12,12 @@ import logo from "../../../assets/images/logo-flat.png";
 import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import useAuth from "@/hooks/useAuth";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
+  const {sessionUser} = useAuth()
+  console.log(sessionUser)
 
   // Sidebar Toggle Handler
   const handleToggle = () => {
@@ -51,9 +53,8 @@ const Sidebar = () => {
           <div className="flex flex-col flex-1 mt-6">
             <nav className="space-y-2">
               <CustomerMenu />
-              <SellerMenu />
-              <MenuItem icon={BsGraphUp} label="Statistics" address="/dashboard" />
-              <AdminMenu />
+              {(sessionUser?.role === "seller" || sessionUser?.role === "admin") && <SellerMenu />}
+              {sessionUser?.role === "admin" && <AdminMenu />}
             </nav>
           </div>
         </div>

@@ -7,7 +7,7 @@ import {
 } from '@headlessui/react'
 import { Fragment } from 'react'
 
-const BecomeSellerModal = ({ closeModal, isOpen }: any) => {
+const BecomeSellerModal = ({ closeModal, isOpen, requestHandler }: any) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -49,11 +49,11 @@ const BecomeSellerModal = ({ closeModal, isOpen }: any) => {
                 </div>
                 <hr className='mt-8 ' />
                 <div className='flex mt-2 justify-around'>
-                  <button
+                  <button onClick={requestHandler}
                     type='button'
                     className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
                   >
-                    Continue
+                    Send Request
                   </button>
                   <button
                     type='button'

@@ -45,7 +45,7 @@ const Login = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get("redirect") || "/";
       await signIn("google", { callbackUrl: redirectUrl });
-      toast.success("Login Successful");
+      // toast.success("Login Successful");
     } catch (err: any) {
       setLoading(false);
       console.error(err);
@@ -95,7 +95,7 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="bg-lime-500 w-full rounded-md py-3 text-white"
+              className="bg-emerald-500 hover:bg-emerald-600 w-full rounded-md py-3 text-white"
             >
               {loading ? (
                 <TbFidgetSpinner className="animate-spin m-auto" />
@@ -106,7 +106,7 @@ const Login = () => {
           </div>
         </form>
         <div className="space-y-1">
-          <button className="text-xs hover:underline hover:text-lime-500 text-gray-400">
+          <button className="text-xs hover:underline hover:text-emerald-500 text-gray-400">
             Forgot password?
           </button>
         </div>
@@ -128,7 +128,7 @@ const Login = () => {
           Don&apos;t have an account yet?{" "}
           <Link
             href="/signup"
-            className="hover:underline hover:text-lime-500 text-gray-600"
+            className="hover:underline hover:text-emerald-500 text-gray-600"
           >
             Sign up
           </Link>

@@ -8,7 +8,7 @@ export async function DELETE(request:NextRequest, {params}: any) {
         const query = {_id: new ObjectId(orderId)}
         const {ordersCollection} = await connectDb()
         const order = await ordersCollection.findOne(query)
-        if (order.status === "delivered") {
+        if (order.status === "Delivered") {
             return NextResponse.json("Can't cancel once the product is delivered", {status: 409})
         }
         const result = await ordersCollection.deleteOne(query)
