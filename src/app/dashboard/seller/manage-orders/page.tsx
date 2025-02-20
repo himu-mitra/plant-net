@@ -1,24 +1,8 @@
 "use client";
 
 import SellerOrderDataRow from "@/components/Dashboard/TableRows/SellerOrderDataRow";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 const ManageOrders = () => {
-  const {
-    data: orders = [],
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["manage-orders"],
-    queryFn: async () => {
-      const { data } = await axios.get(`/api/dashboard/manage-orders`);
-      return data;
-    },
-  });
-
-  // if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
