@@ -1,6 +1,18 @@
+"use client"
+
 import UserDataRow from "@/components/Dashboard/TableRows/UserDataRow";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const ManageUsers = () => {
+  const {data: users=[], refetch} = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const {data} = await axios.get("/api/dashboard/admin/get-all-users");
+      return data;
+    }
+  })
+
   return (
     <>
       <div className="container mx-auto px-4 sm:px-8">
@@ -22,8 +34,7 @@ const ManageUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <UserDataRow />
-                  {/* Add more UserDataRow components if needed */}
+                  {users.map((user: any) => (<UserDataRow key={user._id} user={user} refetch={refetch} />))}
                 </tbody>
               </table>
             </div>

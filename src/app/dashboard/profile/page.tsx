@@ -36,10 +36,12 @@ const Profile = () => {
           <h2 className="text-2xl font-semibold text-gray-800">
             {sessionUser?.name || "User Name"}
           </h2>
-          <p className="text-gray-500">{sessionUser?.email || "user@example.com"}</p>
+          <p className="text-gray-500">
+            {sessionUser?.email || "user@example.com"}
+          </p>
 
           <span className="mt-2 px-4 py-1 text-sm font-medium text-white bg-emerald-500 rounded-full">
-            {sessionUser?.role ? sessionUser.role.toUpperCase() : "USER"}
+            {sessionUser?.role ? sessionUser.role : "USER"}
           </span>
 
           {/* Action Buttons */}

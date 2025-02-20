@@ -53,8 +53,8 @@ const Sidebar = () => {
           <div className="flex flex-col flex-1 mt-6">
             <nav className="space-y-2">
               <CustomerMenu />
-              {(sessionUser?.role === "seller" || sessionUser?.role === "admin") && <SellerMenu />}
-              {sessionUser?.role === "admin" && <AdminMenu />}
+              {(sessionUser?.role === "Seller" || sessionUser?.role === "Admin") && <SellerMenu />}
+              {sessionUser?.role === "Admin" && <AdminMenu />}
             </nav>
           </div>
         </div>

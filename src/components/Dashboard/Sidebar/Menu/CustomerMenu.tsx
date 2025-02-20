@@ -37,7 +37,7 @@ const CustomerMenu = () => {
         address="/dashboard/customer/my-orders"
       />
 
-      {sessionUser?.role === "customer" && (
+      {sessionUser?.role === "Customer" && (
         <div
           onClick={() => setIsOpen(true)}
           className="flex items-center px-5 py-3 my-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-emerald-100 hover:text-emerald-700 cursor-pointer"

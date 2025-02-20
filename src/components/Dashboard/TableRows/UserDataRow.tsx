@@ -3,10 +3,25 @@
 import { useState } from "react";
 import UpdateUserModal from "../../Modal/UpdateUserModal";
 import Image from "next/image";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const UserDataRow = () => {
+const UserDataRow = ({ user, refetch }: any) => {
   const [isOpen, setIsOpen] = useState(false);
-  const image = null;
+  const { image, name, email, role, status } = user || {};
+  async function updateRole(selectedRole: any) {
+    if (role === selectedRole) return;
+
+    try {
+      await axios.patch("/api/dashboard/admin/update-role", {email, role: selectedRole})
+      toast.success("Role Update Successfully")
+    } catch (error) {
+      console.log(error)
+    } finally {
+      refetch()
+      setIsOpen(false)
+    }
+  } 
 
   return (
     <tr className="group hover:bg-gray-100 transition">
@@ -15,7 +30,7 @@ const UserDataRow = () => {
           <div className="flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border border-gray-300 shadow-sm">
             {image ? (
               <Image
-                src={image}
+                src={user.image}
                 alt="User"
                 width={56}
                 height={56}
@@ -30,19 +45,17 @@ const UserDataRow = () => {
         </div>
       </td>
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm group-hover:bg-gray-100 transition">
-        <p className="text-gray-900 font-medium whitespace-no-wrap">Himu</p>
+        <p className="text-gray-900 font-medium whitespace-no-wrap">{name}</p>
       </td>
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm group-hover:bg-gray-100 transition">
-        <p className="text-gray-900 font-medium whitespace-no-wrap">
-          abc@gmail.com
-        </p>
+        <p className="text-gray-900 font-medium whitespace-no-wrap">{email}</p>
       </td>
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm group-hover:bg-gray-100 transition">
-        <p className="text-gray-700 font-medium whitespace-no-wrap">Customer</p>
+        <p className="text-gray-700 font-medium whitespace-no-wrap">{role}</p>
       </td>
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm group-hover:bg-gray-100 transition">
-        <p className="text-red-500 font-medium whitespace-no-wrap">
-          Unavailable
+        <p className="text-green-500 font-medium whitespace-no-wrap">
+          {status ? status : "Unavailable"}
         </p>
       </td>
 
@@ -55,7 +68,7 @@ const UserDataRow = () => {
         </button>
 
         {/* Modal */}
-        <UpdateUserModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <UpdateUserModal isOpen={isOpen} setIsOpen={setIsOpen} role={role} updateRole= {updateRole} />
       </td>
     </tr>
   );

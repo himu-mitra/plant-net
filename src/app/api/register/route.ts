@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
             gender: "N/A",
             password,
             provider,
-            role: "customer",
+            role: "Customer",
             image,
             resetPassOtp: "N/A",
             isVerified: false,

@@ -1,15 +1,30 @@
-"use client"
+"use client";
 
 import PlantDataRow from "@/components/Dashboard/TableRows/PlantDataRow";
+import useAuth from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const MyInventory = () => {
-  const router = useRouter(); // Initialize useRouter
-
-  // Function to handle navigation
+  const { sessionUser } = useAuth();
+  const router = useRouter();
   const handleAddPlant = () => {
-    router.push("/dashboard/seller/add-plant"); // Navigate to the desired path
+    router.push("/dashboard/seller/add-plant");
   };
+
+  const { data: plants = [], refetch } = useQuery({
+    queryKey: ["plants"],
+    queryFn: async () => {
+      if (!sessionUser?.email) return [];
+      const { data } = await axios.get(
+        `/api/dashboard/seller/get-my-plants/${sessionUser.email}`
+      );
+      return data;
+    },
+    enabled: !!sessionUser?.email,
+  });
+  
   return (
     <>
       <div className="container mx-auto px-4 sm:px-8">
@@ -19,29 +34,51 @@ const MyInventory = () => {
           </h2>
           <div className="bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="flex justify-between items-center py-4 px-6 border-b">
-              <button onClick={handleAddPlant} className="bg-emerald-500 text-white px-4 py-2 rounded-md hover:bg-emerald-600">
+              <button
+                onClick={handleAddPlant}
+                className="bg-emerald-500 text-white px-4 py-2 rounded-md hover:bg-emerald-600"
+              >
                 Add New Plant
               </button>
             </div>
-            <div className="overflow-x-auto"> {/* ✅ Scrollbar added */}
+            <div className="overflow-x-auto">
               <table className="min-w-full border-collapse w-full">
                 <thead>
                   <tr className="bg-emerald-600 text-white">
-                    <th className="px-6 py-3 text-left text-sm font-medium">Image</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium">Name</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium">Category</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium">Price</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium">Quantity</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium">Delete</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium">Update</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Image
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Category
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Price
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Quantity
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Delete
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium">
+                      Update
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <PlantDataRow />
-                  {/* Add more PlantDataRow components if needed */}
+                  {plants.map((plant: any) => (
+                    <PlantDataRow
+                      key={plant?._id}
+                      plant={plant}
+                      refetch={refetch}
+                    />
+                  ))}
                 </tbody>
               </table>
-            </div> {/* ✅ Scrollbar wrapper ends here */}
+            </div>
           </div>
         </div>
       </div>

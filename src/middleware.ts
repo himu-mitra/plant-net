@@ -21,12 +21,13 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    if ((token?.role !== "admin") && pathname.startsWith("/dashboard/admin")) {
+    if (
+        (token?.role !== "Admin") && (pathname.startsWith("/dashboard/admin") || pathname.startsWith("/api/dashboard/admin"))) {
         return NextResponse.redirect(new URL("/logout", request.url));
     }
 
     if (
-        !["admin", "seller"].includes(token?.role as string) &&
+        !["Admin", "Seller"].includes(token?.role as string) &&
         (pathname.startsWith("/api/dashboard/seller") || pathname.startsWith("/dashboard/seller"))
     ) {
         return NextResponse.redirect(new URL("/logout", request.url));

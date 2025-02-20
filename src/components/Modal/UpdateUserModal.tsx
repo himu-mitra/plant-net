@@ -15,10 +15,10 @@ import {
 import { BsCheckLg } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
 
-const roles = ["customer", "seller", "admin"];
+const roles = ["Customer", "Seller", "Admin"];
 
-const UpdateUserModal = ({ setIsOpen, isOpen }: any) => {
-  const [selected, setSelected] = useState("");
+const UpdateUserModal = ({ setIsOpen, isOpen, role, updateRole }: any) => {
+  const [selected, setSelected] = useState(role);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -62,7 +62,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen }: any) => {
                     <div className="relative">
                       <ListboxButton className="relative w-full cursor-pointer rounded-lg border border-gray-300 bg-white py-3 pl-4 pr-10 text-left text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                         <span className="block truncate">
-                          {selected || "Select Role"}
+                          {selected}
                         </span>
                         <span className="absolute inset-y-0 right-0 flex items-center pr-3">
                           <AiOutlineDown
@@ -113,6 +113,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen }: any) => {
 
                 <div className="mt-8 flex justify-center gap-6">
                   <button
+                  onClick={()=> updateRole(selected)}
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                   >
