@@ -1,7 +1,6 @@
 "use client";
 
 import SellerOrderDataRow from "@/components/Dashboard/TableRows/SellerOrderDataRow";
-
 const ManageOrders = () => {
 
   return (
