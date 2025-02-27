@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { sessionUser } = useAuth();
+  console.log("sessionUser ------", sessionUser)
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   if (

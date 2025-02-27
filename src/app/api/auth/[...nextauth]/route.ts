@@ -87,10 +87,15 @@ const handler = NextAuth({
                     const { usersCollection } = await connectDb();
                     const query: any = { email };
                     const existingUser = await usersCollection.findOne(query);
-                    token.name = existingUser.name;
-                    token.email = existingUser.email;
-                    token.role = existingUser.role;
-                    token.image = existingUser.image;
+                    console.log("existingUser -----", existingUser)
+                    if (!existingUser) {
+                        token.tokenExpired = true;
+                    } else {
+                        token.name = existingUser.name;
+                        token.email = existingUser.email;
+                        token.role = existingUser.role;
+                        token.image = existingUser.image;
+                    }
                 } catch (error) {
                     console.log(error)
                 }
@@ -107,6 +112,7 @@ const handler = NextAuth({
                     email: token.email,
                     role: token.role as string,
                     image: token?.image as string,
+                    // tokenExpired: token?.tokenExpired as boolean || false 
                 };
             }
             return session;

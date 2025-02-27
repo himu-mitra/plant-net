@@ -15,9 +15,9 @@ import { signOut } from "next-auth/react";
 import useAuth from "@/hooks/useAuth";
 
 const Sidebar = () => {
-  const [isActive, setActive] = useState(false);
+  const [isActive, setActive] = useState(true);
   const {sessionUser} = useAuth()
-  
+
   const handleToggle = () => {
     setActive(!isActive);
   };
