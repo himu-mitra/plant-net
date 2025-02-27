@@ -54,7 +54,7 @@ const UpdatePlantModal = ({ setIsEditModalOpen, isOpen }: any) => {
                 <div className="mt-4 flex justify-center">
                   <button
                     type="button"
-                    className="w-full mx-2 inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-3 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                    className="w-full mx-2 inline-flex justify-center rounded-md border border-transparent px-4 py-3.5 relative text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition shadow-md"
                     onClick={() => setIsEditModalOpen(false)}
                   >
                     Cancel

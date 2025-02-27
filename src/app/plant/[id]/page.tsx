@@ -45,7 +45,7 @@ const PlantDetails = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 flex flex-col lg:flex-row gap-12 bg-white shadow-lg rounded-2xl">
+    <div className="max-w-6xl mx-auto p-6 flex flex-col lg:flex-row gap-12 bg-white shadow-lg rounded-2xl my-5">
       {/* Plant Image */}
       <div className="flex-1">
         <Image

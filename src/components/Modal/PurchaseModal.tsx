@@ -30,6 +30,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
     seller: seller?.email,
     address: "",
     status: "Pending",
+    createdAt: new Date().toISOString(),
   });
 
   function handleQuantity(value: number) {
@@ -47,7 +48,6 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
       ...prev,
       quantity: value,
       price: value * price,
-      createdAt: new Date()
     }));
   }
 
@@ -173,7 +173,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
               <div className="mt-6 flex justify-between items-center gap-5">
                 <button
                   onClick={closeModal}
-                  className="px-4 py-3 rounded-lg text-red-900 bg-red-100 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                  className="px-5 py-3.5 text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition rounded-lg shadow-md"
                 >
                   Cancel
                 </button>

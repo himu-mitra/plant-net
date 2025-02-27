@@ -10,8 +10,6 @@ import toast from "react-hot-toast";
 const CustomerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { sessionUser } = useAuth();
-  console.log(sessionUser);
-
   const closeModal = () => {
     setIsOpen(false);
   };

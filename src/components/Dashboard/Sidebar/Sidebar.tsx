@@ -17,9 +17,7 @@ import useAuth from "@/hooks/useAuth";
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
   const {sessionUser} = useAuth()
-  console.log(sessionUser)
-
-  // Sidebar Toggle Handler
+  
   const handleToggle = () => {
     setActive(!isActive);
   };

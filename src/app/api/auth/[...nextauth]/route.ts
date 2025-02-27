@@ -14,11 +14,11 @@ const handler = NextAuth({
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                console.log("credentials", credentials)
+                // console.log("credentials", credentials)
 
                 if (credentials?.email) {
                     const { email } = credentials;
-                    console.log("email --", email);
+                    // console.log("email --", email);
                     try {
                         const { usersCollection } = await connectDb();
                         const user = await usersCollection.findOne({ email });
