@@ -27,7 +27,7 @@ const SellerOrderDataRow = ({ orderData, refetch }: any) => {
     try {
       await axios.delete(`/api/dashboard/delete-order/${orderData?._id}`);
       await axios.patch(
-        `/api/dashboard/seller/update-plant-quentity/${orderData?.plantId}`,
+        `/api/dashboard/update-plant-quentity/${orderData?.plantId}`,
         {
           quantityToUpdate: orderData?.quantity,
           status: "increase",

@@ -54,7 +54,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
   async function handlePurchase() {
     try {
       await axios.post("/api/order", purchaseInfo);
-      await axios.patch(`/api/dashboard/seller/update-plant-quentity/${_id}`, {
+      await axios.patch(`/api/dashboard/update-plant-quentity/${_id}`, {
         quantityToUpdate: totalQuantity,
         status: "decrease"
       });
