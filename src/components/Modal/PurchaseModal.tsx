@@ -59,7 +59,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
         status: "decrease"
       });
       refetch();
-      router.push("/dashboard/customer/my-orders")
+      router.push(`${process.env.NEXT_PUBLIC_DOMAIN}/dashboard/customer/my-orders`)
       toast.success("Order Successful!");
     } catch (error) {
       console.log(error);
