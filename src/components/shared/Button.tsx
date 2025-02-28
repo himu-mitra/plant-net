@@ -1,4 +1,4 @@
-const Button = ({ label, onClick, disabled, outline, small, icon: Icon }: any) => {
+const Button = ({ label, onClick, disabled, outline, small, icon: Icon, loading }: any) => {
   return (
     <button
       disabled={disabled}
@@ -32,7 +32,7 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon }: any) =
             '
         />
       )}
-      {label}
+      {loading? <span className="loading loading-spinner text-warning"></span> : label}
     </button>
   )
 }

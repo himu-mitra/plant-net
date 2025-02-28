@@ -7,9 +7,9 @@ export async function middleware(request: NextRequest) {
     const token = await getToken({ req: request });
     const pathname = request.nextUrl.pathname;
 
-    if (token?.tokenExpired) {
-        return NextResponse.redirect(new URL("/logout", request.url));
-    }
+    // if (token?.tokenExpired) {
+    //     return NextResponse.redirect(new URL("/logout", request.url));
+    // }
 
     if (token && (pathname.startsWith("/login") || pathname.startsWith("/signup"))) {
         return NextResponse.redirect(new URL("/", request.url));

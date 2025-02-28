@@ -13,6 +13,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { sessionUser } = useAuth();
   const { category, price, name, seller, quantity, _id } = plant;
@@ -53,6 +54,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
 
   async function handlePurchase() {
     try {
+      setLoading(true)
       await axios.post("/api/order", purchaseInfo);
       await axios.patch(`/api/dashboard/update-plant-quentity/${_id}`, {
         quantityToUpdate: totalQuantity,
@@ -65,6 +67,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
       console.log(error);
     } finally {
       closeModal();
+      setLoading(false)
     }
   }
 
@@ -180,6 +183,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }: any) => {
                 <Button
                   onClick={handlePurchase}
                   label={`Pay $${totalPrice}`}
+                  loading={loading}
                   disabled={
                     !sessionUser ||
                     totalQuantity <= 0 ||

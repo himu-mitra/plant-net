@@ -55,7 +55,7 @@ const CustomerOrderDataRow = ({ orderData, refetch, isLoading }: any) => {
       <td className="px-5 py-4 text-center">{quantity}</td>
       <td className="px-5 py-4">
         <span
-          className={`px-3 py-2 text-sm font-semibold rounded-lg 
+          className={`text-sm font-semibold
           ${
             status === "Delivered"
               ? "text-green-600"

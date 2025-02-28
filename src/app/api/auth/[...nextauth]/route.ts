@@ -112,7 +112,7 @@ const handler = NextAuth({
                     email: token.email,
                     role: token.role as string,
                     image: token?.image as string,
-                    // tokenExpired: token?.tokenExpired as boolean || false 
+                    tokenExpired: token?.tokenExpired as boolean || false 
                 };
             }
             return session;

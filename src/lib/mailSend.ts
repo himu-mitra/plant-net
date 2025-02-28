@@ -16,7 +16,7 @@ export async function mailSend(mailData: any) {
             from: process.env.NODEMAILER_USER,
             to: mailData.address,
             subject: mailData.subject,
-            html: mailData.text,
+            html: `<p>${mailData.body}</p>`,
         });
 
         return { message: "Email sent successfully"};

@@ -1,23 +1,30 @@
 "use client";
 
 import { AiOutlineMenu } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import avatarImg from "@/assets/images/placeholder.jpg";
 import logo from "@/assets/images/logo-flat.png";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { sessionUser } = useAuth();
-  console.log("sessionUser ------", sessionUser)
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
-  if (
-    pathname.startsWith("/dashboard")
-  ) {
+
+  useEffect(() => {
+    if (sessionUser?.tokenExpired) {
+      router.push("/logout");
+    }
+  }, [sessionUser, router]);
+
+  console.log("sessionUser ------", sessionUser);
+  const [isOpen, setIsOpen] = useState(false);
+
+  if (pathname.startsWith("/dashboard")) {
     return null;
   }
 
